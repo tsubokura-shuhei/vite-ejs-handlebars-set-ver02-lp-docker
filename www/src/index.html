@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>メインページ</title>
+    <title>listページ</title>
+    <link rel="stylesheet" href="./scss/reset.scss" />
+    <link rel="stylesheet" href="./scss/common.scss" />
+    <link rel="stylesheet" href="./scss/style.scss" />
+  </head>
+  <body>
+    <header>ヘッダーになるよ</header>
+    <main>
+      <h1>タイトル</h1>
+      <div id="app">
+        <img src="./assets/images/sample.jpg" alt="" />
+        <div class="piyo"></div>
+      </div>
+      {{#each cardList}}
+      <ul>
+        <li>{{name}}:{{color}}:{{category}}:{{taste}}</li>
+      </ul>
+      {{/each}}
+      <!-- テキスト -->
+      <p>Hellow World!!</p>
+      <div class="test"><div class="test2"></div></div>
+
+      <section class="main">
+        <div class="main__textArea">
+          <p>Hello! SCSS&BEM!</p>
+        </div>
+        <div class="main__btn--success">早速使ってみる</div>
+        <div class="main__btn--faile">遠慮しておく</div>
+      </section>
+
+      <section class="sample">
+        <div class="sample__topArea">
+          <p>TOP</p>
+        </div>
+        <div class="sample__line--mainArea">
+          <p>main</p>
+        </div>
+        <div class="sample__line--bottomArea">
+          <p>bottom</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div>フッターが入るよ</div>
+    </footer>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+version: "2"
+services:
+  httpd:
+    container_name: httpd-${CONTAINER_NAME}
+    hostname: httpd
+    image: php:8.1-apache
+    ports:
+      - "80:80"
+      - "443:443"
+    privileged: true
+    volumes:
+      - "./www/html:/var/www/html"
+  node-js:
+    container_name: node-js-${CONTAINER_NAME}
+    build: ./docker/node
+    image: node/nodejs-${CONTAINER_NAME}
+    links:
+      - httpd
+    volumes:
+      - "./www:/var/www"
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    tty: true

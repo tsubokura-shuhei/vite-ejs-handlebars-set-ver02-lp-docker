@@ -1,0 +1,46 @@
+{
+  "setting": [
+    {
+      "/index.html": {
+        "isHome": true,
+        "title": "メインページ",
+        "cardList": [
+          {
+            "name": "りんご",
+            "color": "赤色",
+            "category": "果物",
+            "taste": "甘い"
+          },
+          {
+            "name": "ぶどう",
+            "color": "紫色",
+            "category": "果物",
+            "taste": "甘い酸っぱい"
+          },
+          {
+            "name": "スイカ",
+            "color": "ピンク色",
+            "category": "野菜",
+            "taste": "少し甘い"
+          },
+          {
+            "name": "メロン",
+            "color": "緑色",
+            "category": "果物",
+            "taste": "甘い"
+          }
+        ]
+      },
+      "/list.html": {
+        "isHome": false,
+        "title": "リストページ",
+        "items": ["red", "green", "yellow", "purple"]
+      },
+      "/about/index.html": {
+        "isHome": false,
+        "title": "Aboutページ",
+        "items": ["りんご", "メロン", "バナナ"]
+      }
+    }
+  ]
+}

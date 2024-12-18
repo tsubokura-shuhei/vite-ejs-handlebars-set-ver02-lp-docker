@@ -1,0 +1,32 @@
+{
+  "name": "ejs-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "builds": "vite build && html-beautify dist/**/*.html",
+    "builds-js": "vite build && html-beautify dist/**/*.html && esbuild src/public/assets/js/*.js --bundle --minify --outdir=dist/assets/js/"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
+    "autoprefixer": "^10.4.19",
+    "css-declaration-sorter": "^7.2.0",
+    "js-beautify": "^1.15.1",
+    "postcss": "^8.4.38",
+    "postcss-normalize-charset": "^7.0.0",
+    "postcss-sort-media-queries": "^5.2.0",
+    "sass": "^1.77.4",
+    "vite": "^5.2.0",
+    "vite-plugin-handlebars": "^2.0.0",
+    "vite-plugin-html": "^3.2.2"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "> 5%",
+    "Firefox ESR",
+    "not dead"
+  ]
+}

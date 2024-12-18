@@ -1,0 +1,182 @@
+//************************************************************
+// ブレイクポイント
+//************************************************************
+$pc: 769px; // PC
+$tab: 768px; // タブレット
+$sp: 480px; // スマホ
+
+@mixin pc {
+  @media (min-width: ($pc)) {
+    @content;
+  }
+}
+@mixin tab {
+  @media (max-width: ($tab)) {
+    @content;
+  }
+}
+@mixin sp {
+  @media (max-width: ($sp)) {
+    @content;
+  }
+}
+
+//（参考ページ）https://macoblog.com/sass_media_query/
+
+//************************************************************
+// px->vw変換
+//************************************************************
+
+@function vw($size, $viewport: 375) {
+  $rate: calc(100 / $viewport);
+  @return $rate * $size * 1vw;
+}
+
+// (例) iPhone
+// border: 1px solid #ff0000;
+// ↓
+// border: vw(1) solid #ff0000;
+
+// (例) Android基準
+// border: 1px solid #ff0000;
+// ↓
+// border: vw(1, 360) solid #ff0000;
+
+//（参考ページ）https://qiita.com/DaisukeNishi/items/36bf3b0e9bc03d892ccb
+
+//************************************************************
+// PC,タブレット,スマホ
+//************************************************************
+
+.container {
+  background-color: rgb(166, 255, 106);
+  p {
+    color: rgb(166, 255, 106);
+    transform: translateX(100px);
+  }
+  p:hover {
+    color: rgb(166, 255, 106);
+    transform: translateX(0px);
+  }
+}
+//pタグ内をブレイクポイントで切り分け
+p {
+  //PC
+  @include pc {
+    color: rgb(166, 255, 106);
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: 16px;
+    span {
+      color: red;
+    }
+  }
+
+  //タブレット
+  @include tab {
+    color: rgb(255, 151, 106);
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: vw(16);
+  }
+
+  //スマホ
+  @include sp {
+    color: rgb(118, 106, 255);
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: vw(16);
+  }
+}
+
+//px->vwへ変換している記述
+.test {
+  width: 200px;
+  height: 200px;
+  padding: vw(3) vw(2) vw(6) vw(4);
+  background-color: rgb(127, 146, 255);
+  .test2 {
+    width: 100px;
+    height: 100px;
+    margin: vw(6) vw(8) vw(10) vw(14);
+    background-color: rgb(153, 255, 127);
+  }
+}
+
+//************************************************************
+// BEM記述
+//************************************************************
+
+@mixin btn {
+  text-align: center;
+  margin: 20px 40px;
+  padding: 20px;
+  color: #fff;
+}
+
+@mixin line {
+  text-align: center;
+  color: rgb(255, 123, 0);
+  padding: 20px 60px;
+}
+
+.main {
+  background-color: #c2ffea;
+  padding: 100px;
+  &__textArea {
+    text-align: center;
+    margin: 40px;
+    padding: 40px;
+    background-color: #fff;
+  }
+  &__btn {
+    &--success {
+      @include btn;
+      background-color: #0a7bf5;
+    }
+    &--faile {
+      @include btn;
+      background-color: #808080;
+    }
+  }
+}
+
+.sample {
+  margin-top: 40px;
+  background-color: #f6e1c1;
+  padding: 100px;
+  &__topArea {
+    text-align: center;
+    background-color: rgb(123, 255, 0);
+    padding: 20px 100px;
+    p {
+      color: #222222;
+    }
+  }
+  &__line {
+    &--mainArea {
+      text-align: center;
+      background-color: #0a7bf5;
+      padding: 20px 100px;
+      p {
+        @include line;
+      }
+    }
+    &--bottomArea {
+      text-align: center;
+      background-color: aqua;
+      padding: 20px 100px;
+      p {
+        @include line;
+      }
+    }
+  }
+}
+
+.piyo {
+  width: 100px;
+  height: 100px;
+  content: "";
+  background-size: contain;
+  background-image: url(../../assets/images/sample.jpg);
+}
