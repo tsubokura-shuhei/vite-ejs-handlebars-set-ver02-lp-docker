@@ -65,6 +65,7 @@ for (let i = 0; i < files.length; i++) {
   inputFiles[file.name] = resolve(__dirname, "./src" + file.path);
 }
 
+
 // ************************************ ネットワーク 設定 ************************************
 
 //CSSとJSファイルに更新パラメータを追加
@@ -79,7 +80,7 @@ const htmlPlugin = () => {
 
       //更新パラメータ作成
       const date = new Date();
-      const param =
+      const param = "?v=20241216"
         date.getFullYear() +
         date.getMonth() +
         date.getDate() +
@@ -88,32 +89,32 @@ const htmlPlugin = () => {
         date.getSeconds();
 
       // CSSファイルにパラメータを追加（httpsから始まる外部リンクは除外）
-      let setParamHtml = html
-        .replace(
-          // crossorigin属性を削除
-          /<link\s+([^>]*)\s+crossorigin(="[^"]*")?/g,
-          (match, attrs) => {
-            return `<link ${attrs.trim()}`; // crossorigin属性を削除
+      let setParamHtml = html.replace(
+        // crossorigin属性を削除
+        /<link\s+([^>]*)\s+crossorigin(="[^"]*")?/g,
+        (match, attrs) => {
+          return `<link ${attrs.trim()}`; // crossorigin属性を削除
+        }
+      ).replace(
+        // ./assets/css/配下のCSSまたはSCSSにmedia="all"を追加
+        /<link\s+([^>]*href="\.\/assets\/css\/[^"]*\.(css|scss))"([^>]*)>/g,
+        // /<link\s+([^>]*href="\.\/assets\/css\/[^"]*\.(css|scss)"[^>]*)>/g,
+        (match, attrs,fileExt, remainingAttrs) => {
+          // media="all" を追加
+          if (!attrs.includes('media="all"')) {
+            // return `<link ${attrs} media="all">`;
+            return `<link ${attrs}${param}"${remainingAttrs} media="all">`;
           }
-        )
-        .replace(
-          // ./assets/css/配下のCSSまたはSCSSにmedia="all"を追加
-          /<link\s+([^>]*href="\.\/assets\/css\/[^"]*\.(css|scss)"[^>]*)>/g,
-          (match, attrs) => {
-            // media="all" を追加
-            if (!attrs.includes('media="all"')) {
-              return `<link ${attrs} media="all">`;
-            }
-            return match;
-          }
-        )
-        // コメントアウトされたPHPタグを有効化
-        .replace(
-          /<!--\s*(<\?php[\s\S]*?\?>)\s*-->/g,
-          (match, phpCode) => phpCode.trim() //コメントタグを除去
-        );
+          return match;
+        }
+      )
+      // コメントアウトされたPHPタグを有効化
+      .replace(
+        /<!--\s*(<\?php[\s\S]*?\?>)\s*-->/g,
+        (match, phpCode) => phpCode.trim() //コメントタグを除去
+      );
 
-      return setParamHtml;
+      return setParamHtml
 
       // JSファイルにパラメータを追加して変更内容を返す（httpsから始まる外部リンクは除外）
       // return setParamHtml.replace(
@@ -142,6 +143,8 @@ export default defineConfig({
   root: "./src", //開発ディレクトリ設定
   build: {
     outDir: "../dist", //出力場所の指定
+    assetsInlineLimit: 0, // データURI変換を無効化
+    emptyOutDir: true,
     rollupOptions: {
       //ファイル出力設定
       output: {
@@ -152,8 +155,6 @@ export default defineConfig({
           let textBox = baseName.split(".");
           let fileType = baseName.split(".")[textBox.length - 1];
 
-          console.log(fileType);
-
           if (fileType === "scss") {
             if (id.includes("reset.scss")) return `reset.min.css`;
             if (id.includes("common.scss")) return `common.min.css`;
@@ -163,6 +164,7 @@ export default defineConfig({
         //ファイルを圧縮して書き出す際には「assetFileNames」内で記述すること
         assetFileNames: (assetInfo) => {
           let extType = assetInfo.name.split(".")[1];
+
           //Webフォントファイルの振り分け
           if (/ttf|otf|eot|woff|woff2/i.test(extType)) {
             extType = "fonts";
