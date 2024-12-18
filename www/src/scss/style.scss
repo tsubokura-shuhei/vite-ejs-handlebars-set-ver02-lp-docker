@@ -1,9 +1,12 @@
+@use "sass:math";
+
 //************************************************************
 // ブレイクポイント
 //************************************************************
-$pc: 769px; // PC
-$tab: 768px; // タブレット
-$sp: 480px; // スマホ
+$pc: 1162px; // PC
+$tab_01: 1162px; //タブレット
+$tab_02: 768px; //タブレット
+$sp: 768px; // スマホ
 
 @mixin pc {
   @media (min-width: ($pc)) {
@@ -11,7 +14,7 @@ $sp: 480px; // スマホ
   }
 }
 @mixin tab {
-  @media (max-width: ($tab)) {
+  @media (min-width: ($tab_02)) and (max-width: ($tab_01)) {
     @content;
   }
 }
@@ -27,9 +30,20 @@ $sp: 480px; // スマホ
 // px->vw変換
 //************************************************************
 
-@function vw($size, $viewport: 375) {
-  $rate: calc(100 / $viewport);
-  @return $rate * $size * 1vw;
+// @function vw($size, $viewport: 750) {
+//   $rate: calc(100 / $viewport);
+//   @return $rate * $size * 1vw;
+// }
+
+@function vw($size, $viewport: 750) {
+  $rate: math.div(100, $viewport);
+  $result: $rate * $size;
+  @return math.div(math.round($result * 100), 100) * 1vw;
+}
+
+@function px($size) {
+  $rate: calc($size * 1px);
+  @return $rate;
 }
 
 // (例) iPhone
