@@ -9,7 +9,7 @@ services:
       - "443:443"
     privileged: true
     volumes:
-      - "./www/html:/var/www/html"
+      - "./www:/var/www"
   node-js:
     container_name: node-js-${CONTAINER_NAME}
     build: ./docker/node
