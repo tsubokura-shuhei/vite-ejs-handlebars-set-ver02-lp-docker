@@ -80,7 +80,7 @@ const htmlPlugin = () => {
 
       //更新パラメータ作成
       const date = new Date();
-      const param = "?v=20241216"
+      const param = "" //CSSのクエリを記入（例）?v=2024
         date.getFullYear() +
         date.getMonth() +
         date.getDate() +
@@ -103,7 +103,11 @@ const htmlPlugin = () => {
           // media="all" を追加
           if (!attrs.includes('media="all"')) {
             // return `<link ${attrs} media="all">`;
-            return `<link ${attrs}${param}"${remainingAttrs} media="all">`;
+            if(!param){
+              return `<link ${attrs}"${remainingAttrs} media="all">`;
+            }else{
+              return `<link ${attrs}${param}"${remainingAttrs} media="all">`;
+            }
           }
           return match;
         }
